@@ -1,5 +1,5 @@
 .footer {
-  background-color: #2d3748;
+  background-color: rgb(150, 91, 81);
   color: #ffffff;
   padding: 3rem 0 1rem;
   margin-top: auto;
@@ -37,7 +37,7 @@
   bottom: 0;
   width: 50px;
   height: 2px;
-  background-color: #4299e1;
+  background-color: rgb(112, 86, 81);
 }
 
 .footerText {
@@ -61,7 +61,7 @@
 }
 
 .footerLink:hover {
-  color: #4299e1;
+  color: rgb(112, 86, 81);
 }
 
 .socialLinks {
@@ -76,7 +76,7 @@
 }
 
 .socialLink:hover {
-  color: #4299e1;
+  color: rgb(112, 86, 81);
 }
 
 .footerBottom {

@@ -1,19 +1,26 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './Header.module.css';
+import logo from '/src/assets/blog-app-logo.png'; 
 
 const Header = ({ setToken }) => {
   const token = localStorage.getItem('token');
+  const navigate = useNavigate(); 
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setToken(null);
+    navigate('/login');
+  };
 
   return (
     <header className={styles.header}>
       <div className={styles.container}>
-        <div className={styles.logo}>
-          <Link to="/">
-            <span className={styles.logoText}>BLOG-APP</span>
-          </Link>
-        </div>
+        <Link to="/" className={styles.logo}>
+          <img src={logo} alt="Blog App Logo" className={styles.logoImage} />
+          <span className={styles.logoText}>BLOG-APP</span>
+        </Link>
 
-        <nav className={styles.nav}>
+        <nav className={styles.nav} aria-label="Main navigation">
           <ul className={styles.navList}>
             <li><Link to="/" className={styles.navLink}>Home</Link></li>
             <li><Link to="/blog" className={styles.navLink}>Blog</Link></li>
@@ -24,19 +31,21 @@ const Header = ({ setToken }) => {
 
         <div className={styles.actions}>
           {token ? (
-            <button 
-              onClick={() => {
-                localStorage.removeItem('token');
-                setToken(null);
-              }}
+            <button
+              onClick={handleLogout}
               className={styles.logoutBtn}
+              aria-label="Log out"
             >
               Logout
             </button>
           ) : (
             <>
-              <Link to="/login" className={styles.loginBtn}>Login</Link>
-              <Link to="/register" className={styles.registerBtn}>Register</Link>
+              <Link to="/login" className={styles.loginBtn} aria-label="Log in">
+                Login
+              </Link>
+              <Link to="/register" className={styles.registerBtn} aria-label="Register">
+                Register
+              </Link>
             </>
           )}
         </div>

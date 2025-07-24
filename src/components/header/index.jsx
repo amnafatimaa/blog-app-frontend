@@ -1,10 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Header.module.css';
-import logo from '/src/assets/blog-app-logo.png'; 
+import logo from '/src/assets/blog-app-logo.png';
 
 const Header = ({ setToken }) => {
   const token = localStorage.getItem('token');
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem('token');

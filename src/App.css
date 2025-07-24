@@ -2,17 +2,18 @@
 
 /* Base Styles */
 :root {
-  --primary-color: rgb(150, 91, 81);
-  --primary-hover: rgb(150, 91, 81);
-  --text-color: #333;
-  --text-light: #555;
+  --primary-color: #965b51; /* Richer brown-red shade */
+  --primary-hover: #7d4a42; /* Darker shade for hover */
+  --text-color: #333333;
+  --text-light: #666666;
   --background: #f8fafc;
   --white: #ffffff;
   --error-color: #dc2626;
   --success-color: #16a34a;
   --border-radius: 0.375rem;
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --transition: all 0.3s ease; /* Unified transition for smoother effects */
 }
 
 * {
@@ -23,10 +24,19 @@
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  line-height: 1.5;
+  line-height: 1.6;
   color: var(--text-color);
   background-color: var(--background);
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased; /* Improve text rendering */
+  -moz-osx-font-smoothing: grayscale;
+}
+
+._heroSubtitle_1cvq4_53 {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    opacity: 0.9; 
+    color: var(--white);
 }
 
 /* Layout */
@@ -34,40 +44,54 @@ body {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 1.5rem; /* Slightly increased padding for comfort */
 }
 
 .main-content {
-  padding: 2rem 0;
+  padding: 2.5rem 0; /* Increased padding for elegance */
   min-height: calc(100vh - 80px); /* Adjust based on header height */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Typography */
 h1, h2, h3, h4 {
-  margin-bottom: 1rem;
-  line-height: 1.2;
+  margin-bottom: 1.25rem; /* Slightly increased for better spacing */
+  line-height: 1.3;
+  font-weight: 700; /* Bolder for emphasis */
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: 2.75rem; /* Slightly larger for impact */
+  color: var(--white); /* Changed to white for hero section */
 }
 
 h2 {
-  font-size: 2rem;
+  font-size: 2.25rem;
+  color: var(--text-color);
 }
 
 h3 {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
+  color: var(--text-color);
 }
 
 p {
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  color: var(--text-light);
 }
 
 a {
   color: var(--primary-color);
-  text-decoration: none;
-  transition: color 0.2s ease;
+  text-decoration: none; /* Removed underline by default */
+  transition: var(--transition);
+  position: relative; /* For potential future underline animation */
+}
+
+/* Removed underline animation for links */
+a::after {
+  content: none; /* Removed the underline effect */
 }
 
 a:hover {
@@ -77,59 +101,66 @@ a:hover {
 /* Buttons */
 .btn {
   display: inline-block;
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1.5rem; /* Increased padding for better touch targets */
   border-radius: var(--border-radius);
-  font-weight: 500;
+  font-weight: 600;
   text-align: center;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: var(--transition);
+  border: none; /* Removed default border for cleaner look */
+  outline: none;
+  text-decoration: none; /* Ensure no underline on buttons/links */
 }
 
 .btn-primary {
   background-color: var(--primary-color);
   color: var(--white);
-  border: 1px solid var(--primary-color);
 }
 
 .btn-primary:hover {
   background-color: var(--primary-hover);
-  border-color: var(--primary-hover);
+  transform: translateY(-2px); /* Subtle lift effect */
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-outline {
   background-color: transparent;
   color: var(--primary-color);
-  border: 1px solid var(--primary-color);
+  border: 2px solid var(--primary-color); /* Thicker border for emphasis */
 }
 
 .btn-outline:hover {
-  background-color: rgba(37, 99, 235, 0.1);
+  background-color: rgba(150, 91, 81, 0.1);
+  color: var(--primary-hover);
+  border-color: var(--primary-hover);
 }
 
 /* Forms */
 .form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem; /* Increased for better spacing */
 }
 
 .form-label {
   display: block;
   margin-bottom: 0.5rem;
-  font-weight: 500;
+  font-weight: 600;
+  color: var(--text-color);
 }
 
 .form-control {
   width: 100%;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #d1d5db;
+  padding: 0.75rem 1rem; /* Increased padding for better usability */
+  border: 2px solid #e5e7eb; /* Slightly darker border */
   border-radius: var(--border-radius);
   font-size: 1rem;
-  transition: border-color 0.2s ease;
+  transition: var(--transition);
+  background-color: var(--white);
 }
 
 .form-control:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  box-shadow: 0 0 0 4px rgba(150, 91, 81, 0.1); /* Enhanced focus ring */
 }
 
 /* Cards */
@@ -137,12 +168,14 @@ a:hover {
   background: var(--white);
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-sm);
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
+  padding: 1.75rem; /* Increased padding */
+  margin-bottom: 1.75rem;
+  transition: var(--transition);
 }
 
 .card:hover {
   box-shadow: var(--shadow-md);
+  transform: translateY(-4px); /* Subtle lift on hover */
 }
 
 /* Utilities */
@@ -165,24 +198,46 @@ a:hover {
 /* Responsive Design */
 @media (max-width: 768px) {
   .main-content {
-    padding: 1rem 0;
+    padding: 1.5rem 0;
   }
   
   h1 {
-    font-size: 2rem;
+    font-size: 2.25rem;
   }
   
   h2 {
-    font-size: 1.75rem;
+    font-size: 1.875rem;
+  }
+  
+  .container {
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn {
+    width: 100%;
+    margin-bottom: 0.5rem;
   }
 }
 
 /* Animation */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .fade-in {
-  animation: fadeIn 0.3s ease-in;
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* Additional Polish */
+.btn:focus,
+.form-control:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(150, 91, 81, 0.2); /* Consistent focus style */
+}
+
+.card {
+  overflow: hidden; /* Prevent content overflow on hover */
 }

@@ -31,9 +31,9 @@
 }
 
 .logoImage {
-  height: 50px;
+  height: 65px;
   width: auto;
-  margin-right: 0.5rem;
+  margin-right: 0.2rem;
 }
 
 .nav {
@@ -120,7 +120,8 @@
   }
 
   .logo {
-    flex: 1 1 auto;
+    height: auto;
+    width: 140px;
   }
 
   .nav {
@@ -156,7 +157,4 @@
     font-size: 1.2rem;
   }
 
-  .logoImage {
-    height: 40px;
-  }
 }

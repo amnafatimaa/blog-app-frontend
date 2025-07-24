@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Login.module.css';
+import axios from 'axios';
 
 const Login = ({ setToken }) => {
   const [formData, setFormData] = useState({
@@ -16,11 +17,17 @@ const Login = ({ setToken }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Placeholder for API call to FastAPI backend
-    console.log('Login attempt with:', formData);
-    // Example: setToken(response.token) after successful API call
+    try {
+      const response = await axios.post('http://localhost:8000/users/login', formData);
+      const token = response.data.access_token;
+      localStorage.setItem('token', token);
+      setToken(token);
+    } catch (err) {
+      console.error('Login failed:', err);
+      alert('Login failed. Check your email or password.');
+    }
   };
 
   return (

@@ -1,0 +1,45 @@
+.commentListContainer {
+  max-width: 800px;
+  margin: 1.5rem auto;
+  padding: 1.5rem;
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.commentListContainer:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+}
+
+.commentListTitle {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.commentList {
+  list-style: none;
+  padding: 0;
+}
+
+.commentItem {
+  padding: 1rem;
+  background-color: #fafafa;
+  border-radius: var(--border-radius);
+  margin-bottom: 1rem;
+}
+
+.commentContent {
+  font-size: 1.1rem;
+  color: var(--text-color);
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+}
+
+.commentDate {
+  font-size: 0.9rem;
+  color: var(--text-light);
+}

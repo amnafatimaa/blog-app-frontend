@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Register.module.css';
+import axios from 'axios';
 
 const Register = ({ setToken }) => {
   const [formData, setFormData] = useState({
@@ -18,16 +19,25 @@ const Register = ({ setToken }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Basic validation
     if (formData.password !== formData.confirmPassword) {
-      console.error('Passwords do not match');
+      alert('Passwords do not match');
       return;
     }
-    // Placeholder for API call to FastAPI backend
-    console.log('Registration attempt with:', formData);
-    // Example: setToken(response.token) after successful API call
+    try {
+      const response = await axios.post('http://localhost:8000/users/register', {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      });
+      const token = response.data.access_token;
+      localStorage.setItem('token', token);
+      setToken(token);
+    } catch (err) {
+      console.error('Registration failed:', err);
+      alert('Registration failed. Try a different email or username.');
+    }
   };
 
   return (

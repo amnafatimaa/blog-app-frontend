@@ -16,6 +16,16 @@
   --transition: all 0.3s ease; /* Unified transition for smoother effects */
 }
 
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-container > div {
+  flex: 1;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;

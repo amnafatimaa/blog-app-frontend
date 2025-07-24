@@ -1,34 +1,30 @@
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Home.module.css';
+import axios from 'axios';
 
 const Home = () => {
-  // Sample featured posts data
-  const featuredPosts = [
-    {
-      id: 1,
-      title: 'Getting Started with React',
-      excerpt: 'Learn the fundamentals of React and build your first application.',
-      category: 'React',
-      date: 'May 15, 2023',
-      readTime: '5 min read'
-    },
-    {
-      id: 2,
-      title: 'Modern CSS Techniques',
-      excerpt: 'Explore the latest CSS features to create stunning designs.',
-      category: 'CSS',
-      date: 'June 2, 2023',
-      readTime: '8 min read'
-    },
-    {
-      id: 3,
-      title: 'JavaScript Best Practices',
-      excerpt: 'Write cleaner and more efficient JavaScript code with these tips.',
-      category: 'JavaScript',
-      date: 'June 10, 2023',
-      readTime: '6 min read'
-    }
-  ];
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    setLoading(true);
+    axios.get('http://localhost:8000/posts')
+      .then(response => {
+        console.log('Posts response:', response.data); // Debug log
+        setPosts(response.data);
+        setError(null);
+      })
+      .catch(error => {
+        console.error('Error fetching posts:', error.response ? error.response.data : error.message);
+        setError('Failed to load posts. Check the console for details.');
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) return <p className={styles.loading}>Loading posts...</p>;
+  if (error) return <p className={styles.error}>{error}</p>;
 
   return (
     <div className={styles.home}>
@@ -48,20 +44,31 @@ const Home = () => {
       <section className={styles.featuredPosts}>
         <h2 className={styles.sectionTitle}>Featured Articles</h2>
         <div className={styles.postsGrid}>
-          {featuredPosts.map(post => (
-            <article key={post.id} className={styles.postCard}>
-              <div className={styles.postMeta}>
-                <span className={styles.postCategory}>{post.category}</span>
-                <span className={styles.postDate}>{post.date}</span>
-              </div>
-              <h3 className={styles.postTitle}>{post.title}</h3>
-              <p className={styles.postExcerpt}>{post.excerpt}</p>
-              <div className={styles.postFooter}>
-                <span className={styles.readTime}>{post.readTime}</span>
-                <Link to={`/blog/${post.id}`} className={styles.readMore}>Read More →</Link>
-              </div>
-            </article>
-          ))}
+          {posts && posts.length > 0 ? (
+            posts.map(post => (
+              <article key={post.id} className={styles.postCard}>
+                <div className={styles.postMeta}>
+                  <span className={styles.postCategory}>General</span>
+                  <span className={styles.postDate}>
+                    {new Date(post.created_at).toLocaleDateString()}
+                  </span>
+                </div>
+                <h3 className={styles.postTitle}>{post.title}</h3>
+                <p className={styles.postExcerpt}>
+                  {post.content.length > 100
+                    ? post.content.slice(0, 100) + '...'
+                    : post.content}
+                </p>
+                <div className={styles.postFooter}>
+                  <Link to={`/blog/${post.id}/`} className={styles.readMore}>
+                    Read More →
+                  </Link>
+                </div>
+              </article>
+            ))
+          ) : (
+            <p className={styles.noPosts}>No posts available yet.</p>
+          )}
         </div>
       </section>
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from './components/header';
 import './App.css';
 import Footer from './components/footer/footer';
@@ -6,21 +6,45 @@ import Home from './pages/home/home';
 import { Routes, Route } from 'react-router-dom'; 
 import About from './pages/about/About';
 import Blog from './pages/blog/Blog';
-import Contact from './pages/contact/Contact'
-import Login from './pages/login/Login'
+import Contact from './pages/contact/Contact';
+import Login from './pages/login/Login';
 import Register from './pages/Register/Register';
+import PostList from './components/PostList';
+import CommentForm from './components/CommentForm';
+import CommentList from './components/CommentList';
+import axios from 'axios';
 
 function App() {
+  const [token, setToken] = useState(localStorage.getItem('token'));
+
   return (
     <div className="app-container">
-      <Header />
+      <Header setToken={setToken} />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/about" element={<About />} />
+        <Route
+          path="/"
+          element={<Home />}
+        />
+        <Route
+          path="/blog/:id"
+          element={<Blog token={token} />}
+        />
+        <Route
+          path="/contact"
+          element={<Contact token={token} />}
+        />
+        <Route
+          path="/login"
+          element={<Login setToken={setToken} />}
+        />
+        <Route
+          path="/register"
+          element={<Register setToken={setToken} />}
+        />
+        <Route
+          path="/about"
+          element={<About token={token} />}
+        />
       </Routes>
       <Footer />
     </div>

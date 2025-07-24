@@ -5,11 +5,12 @@ import axios from 'axios';
 
 const Register = ({ setToken }) => {
   const [formData, setFormData] = useState({
-    name: '',
+    username: '', // Changed from 'name' to 'username'
     email: '',
     password: '',
     confirmPassword: '',
   });
+  const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,26 +18,36 @@ const Register = ({ setToken }) => {
       ...prevData,
       [name]: value,
     }));
+    setError(null); // Clear error on input change
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
     if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match');
+      setError('Passwords do not match');
       return;
     }
+    console.log('Sending registration data:', formData); // Debug log
     try {
       const response = await axios.post('http://localhost:8000/users/register', {
-        name: formData.name,
+        username: formData.username, // Ensure 'username' is sent
         email: formData.email,
         password: formData.password,
+      }, {
+        headers: { 'Content-Type': 'application/json' },
       });
       const token = response.data.access_token;
       localStorage.setItem('token', token);
       setToken(token);
+      console.log('Registration successful, token:', token); // Debug log
     } catch (err) {
-      console.error('Registration failed:', err);
-      alert('Registration failed. Try a different email or username.');
+      console.error('Registration failed:', err.response ? err.response.data : err.message);
+      if (err.response?.status === 422) {
+        setError('Validation failed: ' + (err.response.data.detail?.[0]?.msg || 'Check your input.'));
+      } else {
+        setError('Registration failed. Try again later.');
+      }
     }
   };
 
@@ -46,17 +57,17 @@ const Register = ({ setToken }) => {
       <div className={styles.registerForm}>
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGroup}>
-            <label htmlFor="name" className={styles.formLabel}>
-              Name
+            <label htmlFor="username" className={styles.formLabel}>
+              Username
             </label>
             <input
               type="text"
-              id="name"
-              name="name"
+              id="username" // Changed from 'name' to 'username'
+              name="username" // Changed from 'name' to 'username'
               className={styles.formControl}
-              value={formData.name}
+              value={formData.username}
               onChange={handleChange}
-              placeholder="Your Name"
+              placeholder="Your Username"
               required
             />
           </div>
@@ -105,6 +116,7 @@ const Register = ({ setToken }) => {
               required
             />
           </div>
+          {error && <p className={styles.errorMessage}>{error}</p>}
           <button type="submit" className={styles.submitButton}>
             Register
           </button>

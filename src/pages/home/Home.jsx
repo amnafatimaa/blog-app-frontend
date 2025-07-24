@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styles from './Home.module.css';
 import axios from 'axios';
 
-const Home = () => {
+const Home = ({ token }) => { // Added token prop
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -12,7 +12,7 @@ const Home = () => {
     setLoading(true);
     axios.get('http://localhost:8000/posts')
       .then(response => {
-        console.log('Posts response:', response.data); // Debug log
+        console.log('Posts response:', response.data);
         setPosts(response.data);
         setError(null);
       })
@@ -60,7 +60,10 @@ const Home = () => {
                     : post.content}
                 </p>
                 <div className={styles.postFooter}>
-                  <Link to={`/blog/${post.id}/`} className={styles.readMore}>
+                  <Link
+                    to={token ? `/blog/${post.id}/` : '/register'}
+                    className={styles.readMore}
+                  >
                     Read More →
                   </Link>
                 </div>

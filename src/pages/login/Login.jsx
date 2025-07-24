@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Added useNavigate
 import styles from './Login.module.css';
 import axios from 'axios';
 
 const Login = ({ setToken }) => {
   const [formData, setFormData] = useState({
-    email: '',
+    username: '',
     password: '',
   });
+  const [error, setError] = useState(null);
+  const navigate = useNavigate(); // Hook for navigation
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -15,18 +17,36 @@ const Login = ({ setToken }) => {
       ...prevData,
       [name]: value,
     }));
+    setError(null); // Clear error on input change
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
+    if (!formData.username.trim() || !formData.password.trim()) {
+      setError('Both username and password are required.');
+      return;
+    }
+    const formDataToSend = new URLSearchParams();
+    formDataToSend.append('username', formData.username.trim());
+    formDataToSend.append('password', formData.password.trim());
+    console.log('Form data to send:', formDataToSend.toString()); // Debug log
     try {
-      const response = await axios.post('http://localhost:8000/users/login', formData);
+      const response = await axios.post('http://localhost:8000/users/login', formDataToSend, {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      });
       const token = response.data.access_token;
       localStorage.setItem('token', token);
       setToken(token);
+      console.log('Login successful, token:', token); // Debug log
+      navigate('/'); // Redirect to home page after successful login
     } catch (err) {
-      console.error('Login failed:', err);
-      alert('Login failed. Check your email or password.');
+      console.error('Login failed:', err.response ? err.response.data : err.message);
+      if (err.response?.status === 422) {
+        setError('Validation failed: ' + (err.response.data.detail?.[0]?.msg || 'Check your credentials.'));
+      } else {
+        setError('Login failed. Try again later.');
+      }
     }
   };
 
@@ -36,17 +56,17 @@ const Login = ({ setToken }) => {
       <div className={styles.loginForm}>
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGroup}>
-            <label htmlFor="email" className={styles.formLabel}>
-              Email
+            <label htmlFor="username" className={styles.formLabel}>
+              Username
             </label>
             <input
-              type="email"
-              id="email"
-              name="email"
+              type="text"
+              id="username"
+              name="username"
               className={styles.formControl}
-              value={formData.email}
+              value={formData.username}
               onChange={handleChange}
-              placeholder="your@email.com"
+              placeholder="Your Username"
               required
             />
           </div>
@@ -65,6 +85,7 @@ const Login = ({ setToken }) => {
               required
             />
           </div>
+          {error && <p className={styles.errorMessage}>{error}</p>}
           <button type="submit" className={styles.submitButton}>
             Login
           </button>
@@ -72,6 +93,11 @@ const Login = ({ setToken }) => {
             Don’t have an account?{' '}
             <Link to="/register" className={styles.link}>
               Register here
+            </Link>
+          </p>
+          <p className={styles.forgotPassword}>
+            <Link to="/forgot-password" className={styles.link}>
+              Forgot Password?
             </Link>
           </p>
         </form>

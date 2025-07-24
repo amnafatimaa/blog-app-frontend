@@ -21,34 +21,80 @@
   text-align: center;
 }
 
-.blogPost {
-  padding: 1.5rem;
-  background-color: #fafafa;
-  border-radius: var(--border-radius);
-  margin-bottom: 1.5rem;
+.blogDescription {
+  font-size: 1.1rem;
+  color: var(--text-color);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
-.postTitle {
+.blogSection {
+  margin-bottom: 2.5rem;
+}
+
+.sectionTitle {
   font-size: 1.75rem;
   font-weight: 600;
   color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.postsGrid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.postCard {
+  padding: 1.5rem;
+  background-color: #fafafa;
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+}
+
+.postCard:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+}
+
+.postMeta {
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 0.75rem;
+}
+
+.postCategory {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  background-color: #e0f2fe;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--border-radius);
 }
 
 .postDate {
   font-size: 0.9rem;
   color: var(--text-light);
-  margin-bottom: 1rem;
 }
 
-.postContent {
+.postTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 0.75rem;
+}
+
+.postExcerpt {
   font-size: 1.1rem;
   color: var(--text-color);
   line-height: 1.6;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
-.backLink {
+.postFooter {
+  text-align: right;
+}
+
+.readMore {
   display: inline-block;
   padding: 0.75rem 1.5rem;
   background-color: var(--primary-color);
@@ -59,49 +105,25 @@
   transition: var(--transition);
 }
 
-.backLink:hover {
+.readMore:hover {
   background-color: var(--primary-hover);
   transform: translateY(-2px);
   box-shadow: var(--shadow-sm);
 }
 
-.loginPrompt {
-  max-width: 600px;
-  margin: 3rem auto;
-  padding: 2rem;
-  background-color: var(--white);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-sm);
-  text-align: center;
-  transition: var(--transition);
-}
-
-.loginPrompt:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-4px);
-}
-
-.loginPrompt h1 {
-  font-size: 2.5rem;
-  color: var(--primary-color);
-  margin-bottom: 1rem;
-  font-weight: 700;
-}
-
-.loginMessage {
-  font-size: 1.2rem;
+.sectionContent {
+  font-size: 1.1rem;
   color: var(--text-color);
-  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
 }
 
-.link {
+.internalLink {
   color: var(--primary-color);
   text-decoration: underline;
-  font-weight: 600;
-  transition: var(--transition);
 }
 
-.link:hover {
+.internalLink:hover {
   color: var(--primary-hover);
 }
 
@@ -120,4 +142,25 @@
   background-color: var(--primary-hover);
   transform: translateY(-2px);
   box-shadow: var(--shadow-sm);
+}
+
+.loading {
+  text-align: center;
+  color: #6b7280;
+  font-size: 1.1rem;
+  margin: 2rem 0;
+}
+
+.error {
+  text-align: center;
+  color: #ef4444;
+  font-size: 1.1rem;
+  margin: 2rem 0;
+}
+
+.noPosts {
+  text-align: center;
+  color: #6b7280;
+  font-size: 1.1rem;
+  margin: 1.5rem 0;
 }

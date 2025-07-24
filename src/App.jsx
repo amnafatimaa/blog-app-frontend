@@ -17,17 +17,29 @@ import axios from 'axios';
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
 
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem('token', token);
+    } else {
+      localStorage.removeItem('token');
+    }
+  }, [token]);
+
   return (
     <div className="app-container">
-      <Header setToken={setToken} />
+      <Header setToken={setToken} token={token} />
       <Routes>
         <Route
           path="/"
-          element={<Home />}
+          element={<Home token={token} />} // Pass token
+        />
+        <Route
+          path="/blog"
+          element={<Blog token={token} />} // Pass token
         />
         <Route
           path="/blog/:id"
-          element={<Blog token={token} />}
+          element={<Blog token={token} />} // Pass token
         />
         <Route
           path="/contact"

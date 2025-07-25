@@ -1,0 +1,88 @@
+/* Form.module.css */
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f3f4f6; /* Tailwind's gray-100 */
+  padding: 2rem;
+}
+
+.form {
+  background-color: var(--white);
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  width: 100%;
+  max-width: 28rem;
+  transition: var(--transition);
+}
+
+.form:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+}
+
+/* Input Styles */
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.label {
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 1rem;
+}
+
+.input {
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db; /* Tailwind's gray-300 */
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+/* Button */
+.button {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background-color: var(--primary-color);
+  color: var(--white);
+  font-weight: 600;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.button:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Error / Success */
+.errorMessage {
+  color: #ef4444; /* Tailwind red-500 */
+  font-size: 0.95rem;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.successMessage {
+  color: #10b981; /* Tailwind green-500 */
+  font-size: 0.95rem;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+  text-align: left;
+}

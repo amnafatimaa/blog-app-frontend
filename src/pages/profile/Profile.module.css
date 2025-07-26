@@ -1,0 +1,95 @@
+.profileWrapper {
+  min-height: 100vh;
+  background-color: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.profileContainer {
+  background-color: var(--white);
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  transition: var(--transition);
+}
+
+.profileContainer:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+}
+
+.imageWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.profileImage {
+  width: 8rem;
+  height: 8rem;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profileImage:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-md);
+}
+
+.profileImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.profileTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.profileEmail {
+  font-size: 1.1rem;
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+}
+
+.backLink {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--primary-color);
+  color: var(--white);
+  text-decoration: none;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.backLink:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.loading {
+  text-align: center;
+  color: #6b7280;
+  font-size: 1.1rem;
+  margin: 2rem 0;
+}
+
+.error {
+  text-align: center;
+  color: #ef4444;
+  font-size: 1.1rem;
+  margin: 2rem 0;
+}

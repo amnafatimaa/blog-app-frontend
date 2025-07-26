@@ -14,6 +14,7 @@ import CommentForm from "./components/CommentForm";
 import CommentList from "./components/CommentList";
 import axios from "axios";
 import Newpost from "./pages/newpost/Newpost";
+import Profile from "./pages/profile/Profile";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -47,7 +48,8 @@ function App() {
         <Route path="/register" element={<Register setToken={setToken} />} />
         <Route path="/about" element={<About token={token} />} />
         <Route path="/newpost" element={<Newpost token={token} />} />
-      </Routes>
+        <Route path="/profile" element={<Profile token={token} />} />      
+        </Routes>
       <Footer />
     </div>
   );

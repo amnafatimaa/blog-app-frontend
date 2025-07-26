@@ -1,3 +1,5 @@
+/* --- Base Layout --- */
+
 .header {
   background-color: #ffffff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -13,8 +15,8 @@
   padding: 0 2rem;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   gap: 1rem;
 }
 
@@ -24,20 +26,22 @@
   text-decoration: none;
 }
 
-.logoText {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #333;
-}
-
 .logoImage {
   height: 65px;
   width: auto;
   margin-right: 0.2rem;
 }
 
+.logoText {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* --- Centered Navigation --- */
+
 .nav {
-  flex-grow: 1;
+  flex: 1;
   display: flex;
   justify-content: center;
 }
@@ -61,6 +65,8 @@
 .navLink:hover {
   color: rgb(150, 91, 81);
 }
+
+/* --- Action Buttons --- */
 
 .actions {
   display: flex;
@@ -110,24 +116,92 @@
   background-color: #fee2e2;
 }
 
-/* Responsive styles */
+/* --- Profile and Dropdown --- */
+
+.profileContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.greeting {
+  font-size: 1rem;
+  color: #444;
+  font-weight: 500;
+}
+
+.greetingError {
+  font-size: 0.9rem;
+  color: red;
+}
+
+.profileImage {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.profileImage:hover {
+  transform: scale(1.05);
+  border-color: rgb(150, 91, 81);
+}
+
+.dropdown {
+  position: absolute;
+  top: 120%;
+  right: 0;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  min-width: 150px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0;
+}
+
+.dropdownItem {
+  padding: 0.6rem 1rem;
+  text-align: left;
+  background: none;
+  border: none;
+  width: 100%;
+  font-size: 0.95rem;
+  color: #333;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.dropdownItem:hover {
+  background-color: #f9f9f9;
+  color: rgb(150, 91, 81);
+}
+
+/* --- Responsive --- */
+
 @media (max-width: 768px) {
   .container {
-    flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 1rem;
   }
 
   .logo {
-    height: auto;
-    width: 140px;
+    width: auto;
   }
 
   .nav {
     flex: 1 1 100%;
     order: 3;
     margin-top: 1rem;
+    justify-content: center;
   }
 
   .navList {
@@ -136,7 +210,6 @@
   }
 
   .actions {
-    flex: 1 1 auto;
     justify-content: flex-end;
   }
 }
@@ -156,5 +229,4 @@
   .logoText {
     font-size: 1.2rem;
   }
-
 }

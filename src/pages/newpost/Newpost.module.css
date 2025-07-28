@@ -1,60 +1,74 @@
-/* Form.module.css */
-
-.container {
-  min-height: 100vh;
+.fullPageCenter {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f3f4f6; /* Tailwind's gray-100 */
-  padding: 2rem;
+  padding: 3rem 1rem;
+  background-color: var(--background-color);
+  min-height: 100vh;
 }
 
-.form {
+.card {
   background-color: var(--white);
   padding: 2rem;
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-sm);
   width: 100%;
-  max-width: 28rem;
+  max-width: 700px;
   transition: var(--transition);
 }
 
-.form:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-4px);
+.heading {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  text-align: center;
+  margin-bottom: 1.5rem;
 }
 
-/* Input Styles */
-.inputGroup {
+.form {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  margin-bottom: 1.25rem;
+  gap: 1.25rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .label {
   font-weight: 600;
   color: var(--text-color);
-  font-size: 1rem;
 }
 
-.input {
-  padding: 0.75rem 1rem;
-  border: 1px solid #d1d5db; /* Tailwind's gray-300 */
+.input,
+.textarea {
+  padding: 1rem;
+  font-size: 1rem;
+  border: 1px solid var(--border-light);
   border-radius: var(--border-radius);
-  font-size: 1rem;
-  transition: border-color 0.3s;
+  font-family: inherit;
+  color: var(--text-color);
+  background-color: #f9fafb;
+  transition: var(--transition);
 }
 
-.input:focus {
-  border-color: var(--primary-color);
+.input:focus,
+.textarea:focus {
   outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
 }
 
-/* Button */
-.button {
-  width: 100%;
-  padding: 0.75rem 1rem;
+.textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.submitButton {
+  align-self: flex-end;
+  padding: 0.75rem 1.5rem;
   background-color: var(--primary-color);
   color: var(--white);
   font-weight: 600;
@@ -64,25 +78,51 @@
   transition: var(--transition);
 }
 
-.button:hover {
+.submitButton:hover {
   background-color: var(--primary-hover);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-xs);
 }
 
-/* Error / Success */
+.success {
+  color: green;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
 .errorMessage {
-  color: #ef4444; /* Tailwind red-500 */
-  font-size: 0.95rem;
-  margin-top: -0.5rem;
+  color: red;
+  font-weight: 500;
+  text-align: center;
   margin-bottom: 1rem;
-  text-align: left;
 }
 
-.successMessage {
-  color: #10b981; /* Tailwind green-500 */
-  font-size: 0.95rem;
-  margin-top: -0.5rem;
-  margin-bottom: 1rem;
-  text-align: left;
+.loginButton {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--primary-color);
+  color: var(--white);
+  font-weight: 600;
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  text-align: center;
+}
+
+.loginButton:hover {
+  background-color: var(--primary-hover);
+  box-shadow: var(--shadow-xs);
+}
+
+.backLink {
+  margin-top: 1.5rem;
+  text-align: center;
+  color: var(--primary-color);
+  font-weight: 500;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.backLink:hover {
+  color: var(--primary-hover);
 }

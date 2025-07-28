@@ -53,6 +53,7 @@ const Home = ({ token }) => { // Added token prop
                     {new Date(post.created_at).toLocaleDateString()}
                   </span>
                 </div>
+                <p className={styles.postAuthor}>By {post.author?.username || 'Unknown'}</p>
                 <h3 className={styles.postTitle}>{post.title}</h3>
                 <p className={styles.postExcerpt}>
                   {post.content.length > 100

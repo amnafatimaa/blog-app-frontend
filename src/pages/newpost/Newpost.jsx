@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import styles from '../newpost/Newpost.module.css';
+import styles from './Newpost.module.css';
 
 const Newpost = ({ token }) => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const Newpost = ({ token }) => {
       ...prevData,
       [name]: value,
     }));
-    setMessage(null); // Clear message on input change
+    setMessage(null);
   };
 
   const handleSubmit = async (e) => {
@@ -36,13 +36,13 @@ const Newpost = ({ token }) => {
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`, // Assuming token-based authentication
+            Authorization: `Bearer ${token}`,
           },
         }
       );
       console.log('Post created:', response.data);
       setMessage('Post created successfully!');
-      setTimeout(() => navigate('/blog'), 1000); // Redirect after 1 second
+      setTimeout(() => navigate('/blog'), 1000);
     } catch (err) {
       console.error('Error creating post:', err.response ? err.response.data : err.message);
       setMessage('Failed to create post. Check the console for details.');
@@ -51,13 +51,10 @@ const Newpost = ({ token }) => {
 
   if (!token) {
     return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-        <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-          <p className="text-red-600 mb-4">You must be logged in to create a post.</p>
-          <Link
-            to="/login"
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-          >
+      <div className={styles.fullPageCenter}>
+        <div className={styles.card}>
+          <p className={styles.errorMessage}>You must be logged in to create a post.</p>
+          <Link to="/login" className={styles.loginButton}>
             Go to Login
           </Link>
         </div>
@@ -66,55 +63,45 @@ const Newpost = ({ token }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-4 text-center">Create New Post</h1>
+    <div className={styles.fullPageCenter}>
+      <div className={styles.card}>
+        <h1 className={styles.heading}>Create New Post</h1>
         {message && (
-          <p className={message.includes('success') ? 'text-green-600' : 'text-red-600'}>
+          <p className={message.includes('success') ? styles.success : styles.errorMessage}>
             {message}
           </p>
         )}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label htmlFor="title" className="block text-sm font-medium text-gray-700">
-              Title
-            </label>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <div className={styles.formGroup}>
+            <label htmlFor="title" className={styles.label}>Title</label>
             <input
               type="text"
               id="title"
               name="title"
               value={formData.title}
               onChange={handleChange}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              className={styles.input}
               placeholder="Enter post title"
               required
             />
           </div>
-          <div>
-            <label htmlFor="content" className="block text-sm font-medium text-gray-700">
-              Content
-            </label>
+          <div className={styles.formGroup}>
+            <label htmlFor="content" className={styles.label}>Content</label>
             <textarea
               id="content"
               name="content"
               value={formData.content}
               onChange={handleChange}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 h-32 resize-y"
+              className={styles.textarea}
               placeholder="Enter post content"
               required
             />
           </div>
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-          >
+          <button type="submit" className={styles.submitButton}>
             Submit Post
           </button>
         </form>
-        <Link
-          to="/blog"
-          className="block mt-4 text-center text-blue-500 hover:text-blue-700"
-        >
+        <Link to="/blog" className={styles.backLink}>
           Back to Blog
         </Link>
       </div>

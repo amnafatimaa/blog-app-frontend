@@ -3,6 +3,8 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import styles from './Blog.module.css';
 import axios from 'axios';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const Blog = ({ token }) => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -25,7 +27,7 @@ const Blog = ({ token }) => {
     setError(null);
     if (id) {
       axios
-        .get(`http://localhost:8000/posts/${id}`, {
+        .get(`${API_BASE_URL}/posts/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
@@ -39,7 +41,7 @@ const Blog = ({ token }) => {
 
       if (token) {
         axios
-          .get('http://localhost:8000/users/me', {
+          .get(`${API_BASE_URL}/users/me`, {
             headers: { Authorization: `Bearer ${token}` },
           })
           .then((response) => {
@@ -51,7 +53,7 @@ const Blog = ({ token }) => {
       }
     } else {
       axios
-        .get('http://localhost:8000/posts')
+        .get(`${API_BASE_URL}/posts`)
         .then((response) => {
           setPosts(response.data);
         })
@@ -64,7 +66,7 @@ const Blog = ({ token }) => {
 
   const fetchComments = async (postId) => {
     try {
-      const response = await axios.get(`http://localhost:8000/comments/${postId}/comments/`, {
+      const response = await axios.get(`${API_BASE_URL}/comments/${postId}/comments/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setComments(response.data);
@@ -84,7 +86,7 @@ const Blog = ({ token }) => {
     if (!token || !id) return;
     try {
       const response = await axios.post(
-        `http://localhost:8000/comments/${id}/comments/`,
+        `${API_BASE_URL}/comments/${id}/comments/`,
         { content: newComment },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -103,7 +105,7 @@ const Blog = ({ token }) => {
 
   const confirmDeletePost = async () => {
     try {
-      await axios.delete(`http://localhost:8000/posts/${id}`, {
+      await axios.delete(`${API_BASE_URL}/posts/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       navigate('/blog');
@@ -130,7 +132,7 @@ const Blog = ({ token }) => {
   const saveUpdatePost = async () => {
     try {
       const response = await axios.put(
-        `http://localhost:8000/posts/${id}`,
+        `${API_BASE_URL}/posts/${id}`,
         { title: editTitle, content: editContent },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -160,7 +162,7 @@ const Blog = ({ token }) => {
   const saveUpdateComment = async (commentId) => {
     try {
       const response = await axios.put(
-        `http://localhost:8000/comments/${id}/comments/${commentId}`,
+        `${API_BASE_URL}/comments/${id}/comments/${commentId}`,
         { content: editCommentContent },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -190,7 +192,7 @@ const Blog = ({ token }) => {
   const confirmDeleteComment = async (commentId) => {
     try {
       await axios.delete(
-        `http://localhost:8000/comments/${id}/comments/${commentId}`,
+        `${API_BASE_URL}/comments/${id}/comments/${commentId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setComments(comments.filter((c) => c.id !== commentId));

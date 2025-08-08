@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom'; // Added useNavigate
 import styles from './Login.module.css';
 import axios from 'axios';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const Login = ({ setToken }) => {
   const [formData, setFormData] = useState({
     username: '',
@@ -32,7 +34,7 @@ const Login = ({ setToken }) => {
     formDataToSend.append('password', formData.password.trim());
     console.log('Form data to send:', formDataToSend.toString()); // Debug log
     try {
-      const response = await axios.post('http://localhost:8000/users/login', formDataToSend, {
+      const response = await axios.post(`${API_BASE_URL}/users/login`, formDataToSend, {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       });
       const token = response.data.access_token;
@@ -90,7 +92,7 @@ const Login = ({ setToken }) => {
             Login
           </button>
           <p className={styles.registerLink}>
-            Don’t have an account?{' '}
+            Don't have an account?{' '}
             <Link to="/register" className={styles.link}>
               Register here
             </Link>

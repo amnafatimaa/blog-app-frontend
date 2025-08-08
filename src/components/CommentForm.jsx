@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import styles from './CommentForm.module.css';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const CommentForm = ({ postId, token }) => {
   const [content, setContent] = useState('');
   const [commentId, setCommentId] = useState(null);
@@ -10,8 +12,8 @@ const CommentForm = ({ postId, token }) => {
     e.preventDefault();
     try {
       const url = commentId
-        ? `http://localhost:8000/comments/${postId}/comments/${commentId}`
-        : `http://localhost:8000/comments/${postId}/comments/`;
+        ? `${API_BASE_URL}/${postId}/comments/${commentId}`
+        : `${API_BASE_URL}/comments/${postId}/comments/`;
       const method = commentId ? 'put' : 'post';
       await axios[method](url, { content }, {
         headers: { Authorization: `Bearer ${token}` },

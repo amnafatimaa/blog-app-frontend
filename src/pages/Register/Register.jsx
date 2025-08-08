@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom';
 import styles from './Register.module.css';
 import axios from 'axios';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const Register = ({ setToken }) => {
   const [formData, setFormData] = useState({
-    username: '', // Changed from 'name' to 'username'
+    username: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -30,8 +32,8 @@ const Register = ({ setToken }) => {
     }
     console.log('Sending registration data:', formData); // Debug log
     try {
-      const response = await axios.post('http://localhost:8000/users/register', {
-        username: formData.username, // Ensure 'username' is sent
+      const response = await axios.post(`${API_BASE_URL}/users/register`, {
+        username: formData.username,
         email: formData.email,
         password: formData.password,
       }, {
@@ -62,8 +64,8 @@ const Register = ({ setToken }) => {
             </label>
             <input
               type="text"
-              id="username" // Changed from 'name' to 'username'
-              name="username" // Changed from 'name' to 'username'
+              id="username"
+              name="username"
               className={styles.formControl}
               value={formData.username}
               onChange={handleChange}

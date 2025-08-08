@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import styles from './Home.module.css';
 import axios from 'axios';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const Home = ({ token }) => { // Added token prop
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -10,7 +12,7 @@ const Home = ({ token }) => { // Added token prop
 
   useEffect(() => {
     setLoading(true);
-    axios.get('http://localhost:8000/posts')
+    axios.get(`${API_BASE_URL}/posts`)
       .then(response => {
         console.log('Posts response:', response.data);
         setPosts(response.data);

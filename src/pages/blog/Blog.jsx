@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import styles from './Blog.module.css';
 import axios from 'axios';
+import API_BASE_URL from '../../config.js';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -15,12 +16,12 @@ const Blog = ({ token }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
-  const [alert, setAlert] = useState({ message: '', type: '' }); // State for on-screen alert
-  const [editPost, setEditPost] = useState(false); // State to toggle post editing
-  const [editCommentId, setEditCommentId] = useState(null); // State to track which comment is being edited
-  const [editTitle, setEditTitle] = useState(''); // State for post title edit
-  const [editContent, setEditContent] = useState(''); // State for post content edit
-  const [editCommentContent, setEditCommentContent] = useState(''); // State for comment content edit
+  const [alert, setAlert] = useState({ message: '', type: '' });
+  const [editPost, setEditPost] = useState(false);
+  const [editCommentId, setEditCommentId] = useState(null);
+  const [editTitle, setEditTitle] = useState('');
+  const [editContent, setEditContent] = useState('');
+  const [editCommentContent, setEditCommentContent] = useState('');
 
   useEffect(() => {
     setLoading(true);
@@ -34,7 +35,7 @@ const Blog = ({ token }) => {
           setPost(response.data);
           setComments(response.data.comments || []);
         })
-        .catch((error) => {
+        .catch(() => {
           setError('Failed to load post.');
         })
         .finally(() => setLoading(false));
@@ -93,7 +94,7 @@ const Blog = ({ token }) => {
       setComments((prevComments) => [...prevComments, response.data]);
       setNewComment('');
       fetchComments(id);
-    } catch (err) {
+    } catch {
       setError('Failed to add comment.');
     }
   };
@@ -186,7 +187,7 @@ const Blog = ({ token }) => {
   const handleDeleteComment = (commentId) => {
     if (!token || !id) return;
     setAlert({ message: 'Are you sure you want to delete this comment?', type: 'confirm' });
-    setEditCommentId(commentId); // Track the comment for confirmation
+    setEditCommentId(commentId);
   };
 
   const confirmDeleteComment = async (commentId) => {

@@ -2,24 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Home.module.css';
 import axios from 'axios';
+import API_BASE_URL from '../../config.js';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
-const Home = ({ token }) => { // Added token prop
+const Home = ({ token }) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     setLoading(true);
-    axios.get(`${API_BASE_URL}/posts`)
+    axios
+      .get(`${API_BASE_URL}/posts`)
       .then(response => {
         console.log('Posts response:', response.data);
         setPosts(response.data);
         setError(null);
       })
       .catch(error => {
-        console.error('Error fetching posts:', error.response ? error.response.data : error.message);
+        console.error(
+          'Error fetching posts:',
+          error.response ? error.response.data : error.message
+        );
         setError('Failed to load posts. Check the console for details.');
       })
       .finally(() => setLoading(false));

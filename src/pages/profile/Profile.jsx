@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styles from './Profile.module.css';
 import profilepic from '../../assets/profilepic.webp';
+import API_BASE_URL from '../../config.js';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -19,16 +20,20 @@ const Profile = ({ token }) => {
       return;
     }
     setLoading(true);
-    axios.get(`${API_BASE_URL}/users/me`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then(response => {
+    axios
+      .get(`${API_BASE_URL}/users/me`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
         console.log('User response:', response.data);
         setUser(response.data);
         setError(null);
       })
-      .catch(err => {
-        console.error('Error fetching user:', err.response ? err.response.data : err.message);
+      .catch((err) => {
+        console.error(
+          'Error fetching user:',
+          err.response ? err.response.data : err.message
+        );
         setError('Failed to load profile. Check the console for details.');
       })
       .finally(() => setLoading(false));

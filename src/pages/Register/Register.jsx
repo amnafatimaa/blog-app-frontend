@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Register.module.css';
 import axios from 'axios';
+import API_BASE_URL from '../../config.js';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -20,33 +21,44 @@ const Register = ({ setToken }) => {
       ...prevData,
       [name]: value,
     }));
-    setError(null); // Clear error on input change
+    setError(null);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
       return;
     }
-    console.log('Sending registration data:', formData); // Debug log
+
     try {
-      const response = await axios.post(`${API_BASE_URL}/users/register`, {
-        username: formData.username,
-        email: formData.email,
-        password: formData.password,
-      }, {
-        headers: { 'Content-Type': 'application/json' },
-      });
+      const response = await axios.post(
+        `${API_BASE_URL}/users/register`,
+        {
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+        },
+        {
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
+
       const token = response.data.access_token;
       localStorage.setItem('token', token);
       setToken(token);
-      console.log('Registration successful, token:', token); // Debug log
     } catch (err) {
-      console.error('Registration failed:', err.response ? err.response.data : err.message);
+      console.error(
+        'Registration failed:',
+        err.response ? err.response.data : err.message
+      );
       if (err.response?.status === 422) {
-        setError('Validation failed: ' + (err.response.data.detail?.[0]?.msg || 'Check your input.'));
+        setError(
+          'Validation failed: ' +
+            (err.response.data.detail?.[0]?.msg || 'Check your input.')
+        );
       } else {
         setError('Registration failed. Try again later.');
       }

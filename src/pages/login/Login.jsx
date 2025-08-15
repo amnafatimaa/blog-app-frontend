@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Added useNavigate
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
 import axios from 'axios';
+import API_BASE_URL from '../../config.js';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -11,7 +12,7 @@ const Login = ({ setToken }) => {
     password: '',
   });
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,33 +20,45 @@ const Login = ({ setToken }) => {
       ...prevData,
       [name]: value,
     }));
-    setError(null); // Clear error on input change
+    setError(null);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+
     if (!formData.username.trim() || !formData.password.trim()) {
       setError('Both username and password are required.');
       return;
     }
+
     const formDataToSend = new URLSearchParams();
     formDataToSend.append('username', formData.username.trim());
     formDataToSend.append('password', formData.password.trim());
-    console.log('Form data to send:', formDataToSend.toString()); // Debug log
+
+    console.log('Form data to send:', formDataToSend.toString());
+
     try {
-      const response = await axios.post(`${API_BASE_URL}/users/login`, formDataToSend, {
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      });
+      const response = await axios.post(
+        `${API_BASE_URL}/users/login`,
+        formDataToSend,
+        {
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        }
+      );
+
       const token = response.data.access_token;
       localStorage.setItem('token', token);
       setToken(token);
-      console.log('Login successful, token:', token); // Debug log
-      navigate('/'); // Redirect to home page after successful login
+      console.log('Login successful, token:', token);
+      navigate('/');
     } catch (err) {
       console.error('Login failed:', err.response ? err.response.data : err.message);
       if (err.response?.status === 422) {
-        setError('Validation failed: ' + (err.response.data.detail?.[0]?.msg || 'Check your credentials.'));
+        setError(
+          'Validation failed: ' +
+            (err.response.data.detail?.[0]?.msg || 'Check your credentials.')
+        );
       } else {
         setError('Login failed. Try again later.');
       }

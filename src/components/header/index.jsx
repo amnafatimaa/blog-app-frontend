@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Header.module.css';
 import logo from '/src/assets/logo-header.png';
-import profilePic from '/src/assets/profilepic.webp'; // Hardcoded profile image
+import profilePic from '/src/assets/profilepic.webp';
 import axios from 'axios';
+import API_BASE_URL from '../../config.js';
 
 const Header = ({ setToken }) => {
   const token = localStorage.getItem('token');
@@ -19,7 +20,7 @@ const Header = ({ setToken }) => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get('http://localhost:8000/users/me', {
+        const response = await axios.get(`${API_BASE_URL}/users/me`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUsername(response.data.username);
@@ -37,7 +38,7 @@ const Header = ({ setToken }) => {
     localStorage.removeItem('token');
     setToken(null);
     navigate('/login');
-    setIsDropdownOpen(false); // Close dropdown on logout
+    setIsDropdownOpen(false);
   };
 
   const toggleDropdown = () => {
@@ -64,46 +65,45 @@ const Header = ({ setToken }) => {
         <div className={styles.actions}>
           {token ? (
             <div className={styles.profileContainer}>
-  {loading ? (
-    <span className={styles.greeting}>Loading...</span>
-  ) : error ? (
-    <span className={styles.greetingError}>{error}</span>
-  ) : (
-    <span className={styles.greeting}>Hi, {username}</span>
-  )}
-  <img
-    src={profilePic}
-    alt="User Profile"
-    className={styles.profileImage}
-    onClick={toggleDropdown}
-  />
-  {isDropdownOpen && (
-    <div className={styles.dropdown}>
-      <Link
-        to="/profile"
-        className={styles.dropdownItem}
-        onClick={() => setIsDropdownOpen(false)}
-      >
-        Profile
-      </Link>
-      <Link
-        to="/newpost"
-        className={styles.dropdownItem}
-        onClick={() => setIsDropdownOpen(false)}
-      >
-        New Post
-      </Link>
-      <button
-        onClick={handleLogout}
-        className={styles.dropdownItem}
-        aria-label="Log out"
-      >
-        Logout
-      </button>
-    </div>
-  )}
-</div>
-
+              {loading ? (
+                <span className={styles.greeting}>Loading...</span>
+              ) : error ? (
+                <span className={styles.greetingError}>{error}</span>
+              ) : (
+                <span className={styles.greeting}>Hi, {username}</span>
+              )}
+              <img
+                src={profilePic}
+                alt="User Profile"
+                className={styles.profileImage}
+                onClick={toggleDropdown}
+              />
+              {isDropdownOpen && (
+                <div className={styles.dropdown}>
+                  <Link
+                    to="/profile"
+                    className={styles.dropdownItem}
+                    onClick={() => setIsDropdownOpen(false)}
+                  >
+                    Profile
+                  </Link>
+                  <Link
+                    to="/newpost"
+                    className={styles.dropdownItem}
+                    onClick={() => setIsDropdownOpen(false)}
+                  >
+                    New Post
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className={styles.dropdownItem}
+                    aria-label="Log out"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
           ) : (
             <>
               <Link to="/login" className={styles.loginBtn} aria-label="Log in">

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styles from './Newpost.module.css';
+import API_BASE_URL from '../../config.js';
 
 const Newpost = ({ token }) => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const Newpost = ({ token }) => {
     }
     try {
       const response = await axios.post(
-        'http://localhost:8000/posts/',
+        `${API_BASE_URL}/posts/`,
         {
           title: formData.title,
           content: formData.content,

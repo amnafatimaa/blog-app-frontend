@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import styles from './CommentForm.module.css';
+import API_BASE_URL from './../config.js';
 
 const CommentForm = ({ postId, token }) => {
   const [content, setContent] = useState('');
@@ -10,15 +11,16 @@ const CommentForm = ({ postId, token }) => {
     e.preventDefault();
     try {
       const url = commentId
-        ? `http://localhost:8000/comments/${postId}/comments/${commentId}`
-        : `http://localhost:8000/comments/${postId}/comments/`;
+        ? `${API_BASE_URL}/comments/${postId}/comments/${commentId}`
+        : `${API_BASE_URL}/comments/${postId}/comments/`;
       const method = commentId ? 'put' : 'post';
+
       await axios[method](url, { content }, {
         headers: { Authorization: `Bearer ${token}` },
       });
+
       setContent('');
       setCommentId(null);
-      // Trigger refresh in parent (e.g., Blog.jsx)
     } catch (error) {
       console.error('Error submitting comment:', error);
     }

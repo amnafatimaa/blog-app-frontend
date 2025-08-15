@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import styles from './Blog.module.css';
 import axios from 'axios';
+import API_BASE_URL from '../../config.js';
 
 const Blog = ({ token }) => {
   const { id } = useParams();
@@ -13,33 +14,33 @@ const Blog = ({ token }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
-  const [alert, setAlert] = useState({ message: '', type: '' }); // State for on-screen alert
-  const [editPost, setEditPost] = useState(false); // State to toggle post editing
-  const [editCommentId, setEditCommentId] = useState(null); // State to track which comment is being edited
-  const [editTitle, setEditTitle] = useState(''); // State for post title edit
-  const [editContent, setEditContent] = useState(''); // State for post content edit
-  const [editCommentContent, setEditCommentContent] = useState(''); // State for comment content edit
+  const [alert, setAlert] = useState({ message: '', type: '' });
+  const [editPost, setEditPost] = useState(false);
+  const [editCommentId, setEditCommentId] = useState(null);
+  const [editTitle, setEditTitle] = useState('');
+  const [editContent, setEditContent] = useState('');
+  const [editCommentContent, setEditCommentContent] = useState('');
 
   useEffect(() => {
     setLoading(true);
     setError(null);
     if (id) {
       axios
-        .get(`http://localhost:8000/posts/${id}`, {
+        .get(`${API_BASE_URL}/posts/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
           setPost(response.data);
           setComments(response.data.comments || []);
         })
-        .catch((error) => {
+        .catch(() => {
           setError('Failed to load post.');
         })
         .finally(() => setLoading(false));
 
       if (token) {
         axios
-          .get('http://localhost:8000/users/me', {
+          .get(`${API_BASE_URL}/users/me`, {
             headers: { Authorization: `Bearer ${token}` },
           })
           .then((response) => {
@@ -51,7 +52,7 @@ const Blog = ({ token }) => {
       }
     } else {
       axios
-        .get('http://localhost:8000/posts')
+        .get(`${API_BASE_URL}/posts`)
         .then((response) => {
           setPosts(response.data);
         })
@@ -64,7 +65,7 @@ const Blog = ({ token }) => {
 
   const fetchComments = async (postId) => {
     try {
-      const response = await axios.get(`http://localhost:8000/comments/${postId}/comments/`, {
+      const response = await axios.get(`${API_BASE_URL}/comments/${postId}/comments/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setComments(response.data);
@@ -84,14 +85,14 @@ const Blog = ({ token }) => {
     if (!token || !id) return;
     try {
       const response = await axios.post(
-        `http://localhost:8000/comments/${id}/comments/`,
+        `${API_BASE_URL}/comments/${id}/comments/`,
         { content: newComment },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setComments((prevComments) => [...prevComments, response.data]);
       setNewComment('');
       fetchComments(id);
-    } catch (err) {
+    } catch {
       setError('Failed to add comment.');
     }
   };
@@ -103,7 +104,7 @@ const Blog = ({ token }) => {
 
   const confirmDeletePost = async () => {
     try {
-      await axios.delete(`http://localhost:8000/posts/${id}`, {
+      await axios.delete(`${API_BASE_URL}/posts/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       navigate('/blog');
@@ -130,7 +131,7 @@ const Blog = ({ token }) => {
   const saveUpdatePost = async () => {
     try {
       const response = await axios.put(
-        `http://localhost:8000/posts/${id}`,
+        `${API_BASE_URL}/posts/${id}`,
         { title: editTitle, content: editContent },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -160,7 +161,7 @@ const Blog = ({ token }) => {
   const saveUpdateComment = async (commentId) => {
     try {
       const response = await axios.put(
-        `http://localhost:8000/comments/${id}/comments/${commentId}`,
+        `${API_BASE_URL}/comments/${id}/comments/${commentId}`,
         { content: editCommentContent },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -184,13 +185,13 @@ const Blog = ({ token }) => {
   const handleDeleteComment = (commentId) => {
     if (!token || !id) return;
     setAlert({ message: 'Are you sure you want to delete this comment?', type: 'confirm' });
-    setEditCommentId(commentId); // Track the comment for confirmation
+    setEditCommentId(commentId);
   };
 
   const confirmDeleteComment = async (commentId) => {
     try {
       await axios.delete(
-        `http://localhost:8000/comments/${id}/comments/${commentId}`,
+        `${API_BASE_URL}/comments/${id}/comments/${commentId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setComments(comments.filter((c) => c.id !== commentId));

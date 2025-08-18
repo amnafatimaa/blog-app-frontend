@@ -4,8 +4,6 @@ import styles from './Register.module.css';
 import axios from 'axios';
 import API_BASE_URL from '../../config.js';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
 const Register = ({ setToken }) => {
   const [formData, setFormData] = useState({
     username: '',

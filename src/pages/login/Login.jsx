@@ -4,6 +4,8 @@ import styles from './Login.module.css';
 import axios from 'axios';
 import API_BASE_URL from '../../config.js';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const Login = ({ setToken }) => {
   const [formData, setFormData] = useState({
     username: '',
@@ -103,7 +105,7 @@ const Login = ({ setToken }) => {
             Login
           </button>
           <p className={styles.registerLink}>
-            Don’t have an account?{' '}
+            Don't have an account?{' '}
             <Link to="/register" className={styles.link}>
               Register here
             </Link>

@@ -3,6 +3,8 @@ import axios from 'axios';
 import styles from './CommentForm.module.css';
 import API_BASE_URL from './../config.js';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const CommentForm = ({ postId, token }) => {
   const [content, setContent] = useState('');
   const [commentId, setCommentId] = useState(null);

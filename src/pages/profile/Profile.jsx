@@ -5,6 +5,8 @@ import styles from './Profile.module.css';
 import profilepic from '../../assets/profilepic.webp';
 import API_BASE_URL from '../../config.js';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const Profile = ({ token }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
